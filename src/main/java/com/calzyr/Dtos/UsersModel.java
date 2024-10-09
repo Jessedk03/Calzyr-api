@@ -24,6 +24,7 @@ public class UsersModel {
     public Integer getId() {
         return Id;
     }
+
     public String getUsername() {
         return Username;
     }
@@ -48,29 +49,28 @@ public class UsersModel {
         return DeletedAt;
     }
 
-    public void setUsername(String Username) {
-        this.Username = Username;
+    public void setUsername(String username) {
+        this.Username = username;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.Email = email;
     }
 
-    public void setPassword(String Password) {
-        this.Password = Password;
+    public void setPassword(String password) {
+        this.Password = password;
     }
 
-    public void setCreatedAt(Timestamp CreatedAt) {
-        this.CreatedAt = CreatedAt;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.CreatedAt = createdAt;
     }
 
-    public void setUpdatedAt(Timestamp UpdatedAt) {
-        this.UpdatedAt = UpdatedAt;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.UpdatedAt = updatedAt;
     }
 
-    public void setDeletedAt(Timestamp DeletedAt) {
-        this.DeletedAt = DeletedAt;
+    public void setDeletedAt(Timestamp deletedAt) {
+        this.DeletedAt = deletedAt;
     }
-
 
 }
