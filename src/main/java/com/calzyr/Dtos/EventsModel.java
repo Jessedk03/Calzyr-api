@@ -4,10 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 
+@Getter
 @Entity
 public class EventsModel {
     @Setter
@@ -23,46 +25,6 @@ public class EventsModel {
     private Timestamp CreatedAt;
     private Timestamp UpdatedAt;
     private Timestamp DeletedAt;
-
-    public Integer getId() {
-        return Id;
-    }
-
-    public String getTitle() {
-        return Title;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public Timestamp getStartTime() {
-        return StartTime;
-    }
-
-    public Timestamp getEndTime() {
-        return EndTime;
-    }
-
-    public String getLocation() {
-        return Location;
-    }
-
-    public Integer getUserId() {
-        return UserId;
-    }
-
-    public Timestamp getCreatedAt() {
-        return CreatedAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return UpdatedAt;
-    }
-
-    public Timestamp getDeletedAt() {
-        return DeletedAt;
-    }
 
     public void setTitle(String title) {
         this.Title = title;
