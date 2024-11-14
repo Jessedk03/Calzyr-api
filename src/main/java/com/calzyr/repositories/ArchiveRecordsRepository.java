@@ -10,6 +10,6 @@ public interface ArchiveRecordsRepository extends CrudRepository<ArchiveRecordsM
     @Query("SELECT ar FROM ArchiveRecordsModel ar")
     Iterable<ArchiveRecordsModel> findAllEvents();
 
-    @Query("SELECT ar FROM ArchiveRecordsModel ar WHERE ar.RecordType = :#{record_type}")
+    @Query("SELECT ar FROM ArchiveRecordsModel ar WHERE ar.RecordType = :record_type")
     Iterable<ArchiveRecordsModel> findByRecordType(@Param("record_type") String record_type);
 }
