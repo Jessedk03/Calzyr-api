@@ -12,6 +12,6 @@ public interface UsersRepository extends CrudRepository<UsersModel, Integer> {
     @Query("SELECT u FROM UsersModel u WHERE u.DeletedAt IS NULL")
     Iterable<UsersModel> findAllActiveUsers();
 
-    @Query("SELECT u.DeletedAt, u.Email FROM UsersModel u WHERE u.DeletedAt IS NOT NULL")
-    List<UsersModel> findAllInactiveUsers(LocalDateTime dateTime);
+    @Query("SELECT u FROM UsersModel u WHERE u.DeletedAt IS NOT NULL AND u.DeletedAt < :date")
+    List<UsersModel> findAllInactiveUsers(LocalDateTime date);
 }
