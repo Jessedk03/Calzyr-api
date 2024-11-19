@@ -7,6 +7,9 @@ target/
 ### Local Config ###
 .env
 
+### Logging ###
+logs/
+
 ### STS ###
 .apt_generated
 .classpath
