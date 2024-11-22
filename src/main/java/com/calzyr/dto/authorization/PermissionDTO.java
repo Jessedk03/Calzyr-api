@@ -1,0 +1,30 @@
+package com.calzyr.dto.authorization;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.security.Timestamp;
+
+@Getter
+@Setter
+@Entity
+public class PermissionDTO {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "permission_id")
+    private int PermissionId;
+
+    @Column(name = "permission")
+    private String Permission;
+
+    @Column(name = "created_at")
+    private Timestamp CreatedAt;
+
+    @Column(name = "updated_at")
+    private Timestamp UpdatedAt;
+
+    @Column(name = "deleted_at")
+    private Timestamp DeletedAt;
+}
