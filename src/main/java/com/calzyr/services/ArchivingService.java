@@ -1,11 +1,11 @@
 package com.calzyr.services;
 
-import com.calzyr.dto.ArchiveRecordsModel;
-import com.calzyr.dto.EventsModel;
-import com.calzyr.dto.UsersModel;
-import com.calzyr.repositories.ArchiveRecordsRepository;
-import com.calzyr.repositories.EventsRepository;
-import com.calzyr.repositories.UsersRepository;
+import com.calzyr.dto.ArchiveRecordDTO;
+import com.calzyr.dto.events.EventDTO;
+import com.calzyr.dto.user.UserDTO;
+import com.calzyr.repositories.ArchiveRecordRepository;
+import com.calzyr.repositories.EventRepository;
+import com.calzyr.repositories.UserRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +19,15 @@ import java.util.List;
 @Service
 public class ArchivingService {
 
-    private final EventsRepository eventsRepository;
-    private final UsersRepository usersRepository;
-    private final ArchiveRecordsRepository archiveRecordsRepository;
+    private final EventRepository eventRepository;
+    private final UserRepository userRepository;
+    private final ArchiveRecordRepository archiveRecordRepository;
     private final LoggingService loggingService;
 
-    public ArchivingService(EventsRepository eventsRepository, UsersRepository usersRepository, ArchiveRecordsRepository archiveRecordsRepository, LoggingService loggingService) {
-        this.eventsRepository = eventsRepository;
-        this.usersRepository = usersRepository;
-        this.archiveRecordsRepository = archiveRecordsRepository;
+    public ArchivingService(EventRepository eventRepository, UserRepository userRepository, ArchiveRecordRepository archiveRecordRepository, LoggingService loggingService) {
+        this.eventRepository = eventRepository;
+        this.userRepository = userRepository;
+        this.archiveRecordRepository = archiveRecordRepository;
         this.loggingService = loggingService;
     }
 
@@ -37,15 +37,15 @@ public class ArchivingService {
 
         LocalDateTime fourteenDaysAgo = LocalDateTime.now().minusDays(14);
 
-        ArchiveRecordsModel archiveRecord = new ArchiveRecordsModel();
+        ArchiveRecordDTO archiveRecord = new ArchiveRecordDTO();
 
         archiveDeletedUsers(fourteenDaysAgo, archiveRecord);
         archiveDeletedEvents(fourteenDaysAgo, archiveRecord);
     }
 
-    private void archiveDeletedUsers(LocalDateTime dayTimer, ArchiveRecordsModel archiveRecord) {
+    private void archiveDeletedUsers(LocalDateTime dayTimer, ArchiveRecordDTO archiveRecord) {
 
-        List<UsersModel> oldUsers = usersRepository.findAllInactiveUsers(dayTimer);
+        List<UserDTO> oldUsers = userRepository.findAllInactiveUsers(dayTimer);
 
         if (oldUsers.isEmpty()) {
             System.out.println("No deleted records of Users, Archiving exited.");
@@ -61,8 +61,8 @@ public class ArchivingService {
             archiveRecord.setModifiedUserId(10);
 
             try {
-                archiveRecordsRepository.save(archiveRecord);
-                usersRepository.delete(user);
+                archiveRecordRepository.save(archiveRecord);
+                userRepository.delete(user);
 
                 loggingService.archiveLog("[" + Timestamp.from(Instant.now()) + "]" + " Archiving user: " + user.getEmail() + " successful");
             } catch (Exception e) {
@@ -75,9 +75,9 @@ public class ArchivingService {
         });
     }
 
-    private void archiveDeletedEvents(LocalDateTime dayTimer, ArchiveRecordsModel archiveRecord) {
+    private void archiveDeletedEvents(LocalDateTime dayTimer, ArchiveRecordDTO archiveRecord) {
 
-        List<EventsModel> oldEvents = eventsRepository.findAllDeletedEvents(dayTimer);
+        List<EventDTO> oldEvents = eventRepository.findAllDeletedEvents(dayTimer);
 
         if (oldEvents.isEmpty()) {
             System.out.println("No deleted records of Events, Archiving exited.");
@@ -93,8 +93,8 @@ public class ArchivingService {
             archiveRecord.setModifiedUserId(10);
 
             try {
-                archiveRecordsRepository.save(archiveRecord);
-                eventsRepository.delete(event);
+                archiveRecordRepository.save(archiveRecord);
+                eventRepository.delete(event);
 
                 loggingService.archiveLog("[" + Timestamp.from(Instant.now()) + "]" + " Archiving event: " + event.getTitle() + " successful");
             } catch (Exception e) {

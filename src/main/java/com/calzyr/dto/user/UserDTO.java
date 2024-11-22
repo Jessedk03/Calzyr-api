@@ -1,4 +1,4 @@
-package com.calzyr.dto;
+package com.calzyr.dto.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Setter
 @Entity
 @Table(name = "users")
-public class UsersModel {
+public class UserDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
-package com.calzyr.dto;
+package com.calzyr.dto.events;
 
+import com.calzyr.dto.user.UserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import java.sql.Timestamp;
 @Setter
 @Entity
 @Table(name = "events")
-public class EventsModel {
+public class EventDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,8 +33,9 @@ public class EventsModel {
     @Column(name = "location")
     private String Location;
 
-    @Column(name = "user_id")
-    private Integer UserId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserDTO UserId;
 
     @Column(name = "created_at")
     private Timestamp CreatedAt;
