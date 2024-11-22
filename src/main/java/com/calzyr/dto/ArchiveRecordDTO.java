@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Setter
 @Entity
 @Table(name = "archived_records")
-public class ArchiveRecordsModel {
+public class ArchiveRecordDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
