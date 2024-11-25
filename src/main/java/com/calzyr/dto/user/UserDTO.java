@@ -1,10 +1,13 @@
 package com.calzyr.dto.user;
 
+import com.calzyr.dto.authorization.RoleDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -34,5 +37,8 @@ public class UserDTO {
 
     @Column(name = "deleted_at")
     private Timestamp DeletedAt;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<RoleDTO> roles = new HashSet<>();
 
 }
