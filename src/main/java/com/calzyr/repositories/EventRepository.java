@@ -12,6 +12,9 @@ public interface EventRepository extends CrudRepository<EventDTO, Integer> {
     @Query("SELECT e.Title, e.Description, e.StartTime, e.EndTime, e.Location, e.AllDay FROM EventDTO e WHERE e.DeletedAt IS NULL")
     Iterable<EventDTO> findAllEvents();
 
+    @Query("SELECT e.Title, e.Description, e.StartTime, e.EndTime, e.Location, e.AllDay FROM EventDTO e WHERE e.DeletedAt IS NULL AND e.UserId.id = :id")
+    Iterable<EventDTO> findByUserId(Integer id);
+
     @Query("SELECT e FROM EventDTO e WHERE e.DeletedAt IS NOT NULL AND e.DeletedAt < :date")
     List<EventDTO> findAllDeletedEvents(LocalDateTime date);
 }
