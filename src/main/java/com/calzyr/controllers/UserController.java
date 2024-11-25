@@ -1,9 +1,13 @@
 package com.calzyr.controllers;
 
+import com.calzyr.dto.events.EventDTO;
 import com.calzyr.dto.user.UserDTO;
+import com.calzyr.dto.user.UserResponseDTO;
+import com.calzyr.repositories.EventRepository;
 import com.calzyr.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,10 +24,12 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    private EventRepository eventRepository;
     private PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserController(UserRepository userRepository, EventRepository eventRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.eventRepository = eventRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -37,37 +43,61 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @PostMapping
-    public UserDTO createUser(@RequestBody UserDTO newUser) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        UserDTO user = new UserDTO();
-
-        user.setUsername(newUser.getUsername());
-        user.setEmail(newUser.getEmail());
-        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        user.setCreatedAt(Timestamp.from(Instant.now()));
-
-        return userRepository.save(user);
+    @GetMapping("/{id}/events")
+    public Iterable<EventDTO> getEventsFromUserByUserId(@PathVariable Integer id) {
+        return eventRepository.findByUserId(id);
     }
 
-    @PutMapping("/{id}/update")
-    public UserDTO updateUser(@PathVariable Integer id, @RequestBody UserDTO userDetails) {
-        UserDTO user = userRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id " + id));
+    @PostMapping
+    public UserResponseDTO createUser(@RequestBody UserDTO newUser) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        try {
+            UserDTO user = new UserDTO();
 
-        user.setUsername(userDetails.getUsername());
-        user.setEmail(userDetails.getEmail());
-        user.setUpdatedAt(Timestamp.from(Instant.now()));
+            user.setUsername(newUser.getUsername());
+            user.setEmail(newUser.getEmail());
+            user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            user.setCreatedAt(Timestamp.from(Instant.now()));
 
-        return userRepository.save(user);
+            UserDTO savedUser = userRepository.save(user);
+            return new UserResponseDTO(savedUser);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PatchMapping("/{id}/update")
+    public UserResponseDTO updateUser(@PathVariable Integer id, @RequestBody UserDTO userDetails) {
+        try {
+            UserDTO user = userRepository.findById(id).orElseThrow(() ->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id " + id));
+
+            user.setUsername(userDetails.getUsername());
+            user.setEmail(userDetails.getEmail());
+            user.setUpdatedAt(Timestamp.from(Instant.now()));
+
+            UserDTO savedUser = userRepository.save(user);
+            return new UserResponseDTO(savedUser);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @DeleteMapping("/{id}/delete")
-    public UserDTO deleteUser(@PathVariable Integer id, @RequestBody UserDTO userDelete) {
-        UserDTO user = userRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id " + id));
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+        try {
+            UserDTO user = userRepository.findById(id).orElseThrow(() ->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id " + id));
 
-        user.setDeletedAt(Timestamp.from(Instant.now()));
+            user.setDeletedAt(Timestamp.from(Instant.now()));
 
-        return userRepository.save(user);
+            userRepository.save(user);
+
+            return ResponseEntity.ok("User successfully marked as deleted.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }
