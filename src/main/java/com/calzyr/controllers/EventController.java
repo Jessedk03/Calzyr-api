@@ -7,6 +7,7 @@ import com.calzyr.repositories.EventRepository;
 import com.calzyr.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,7 +21,7 @@ public class EventController {
 
     @Autowired
     private EventRepository eventRepository;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public EventController(EventRepository eventRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
@@ -58,35 +59,45 @@ public class EventController {
             return new EventResponseDTO(savedEvent);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException("Failed!", e);
+            throw new RuntimeException("Failed creating an event", e);
         }
     }
 
     @PatchMapping("/{id}/update")
     public EventResponseDTO updateEvent(@PathVariable Integer id, @RequestBody EventDTO eventDetails) {
-        EventDTO event = eventRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found with id: " + id));
+        try {
+            EventDTO event = eventRepository.findById(id).orElseThrow(() ->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found with id: " + id));
 
-        event.setTitle(eventDetails.getTitle());
-        event.setDescription(eventDetails.getDescription());
-        event.setStartTime(eventDetails.getStartTime());
-        event.setEndTime(eventDetails.getEndTime());
-        event.setLocation(eventDetails.getLocation());
-        event.setUserId(eventDetails.getUserId());
-        event.setUpdatedAt(Timestamp.from(Instant.now()));
-        event.setAllDay(eventDetails.getAllDay());
+            event.setTitle(eventDetails.getTitle());
+            event.setDescription(eventDetails.getDescription());
+            event.setStartTime(eventDetails.getStartTime());
+            event.setEndTime(eventDetails.getEndTime());
+            event.setLocation(eventDetails.getLocation());
+            event.setUserId(eventDetails.getUserId());
+            event.setUpdatedAt(Timestamp.from(Instant.now()));
+            event.setAllDay(eventDetails.getAllDay());
 
-        EventDTO savedEvent = eventRepository.save(event);
-        return new EventResponseDTO(savedEvent);
+            EventDTO savedEvent = eventRepository.save(event);
+            return new EventResponseDTO(savedEvent);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException("Failed updating an event" + e);
+        }
     }
 
     @DeleteMapping("/{id}/delete")
-    public EventDTO deleteEvent(@PathVariable Integer id, @RequestBody EventDTO eventDelete) {
-        EventDTO event = eventRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found with id: " + id));
+    public ResponseEntity<String> deleteEvent(@PathVariable Integer id) {
+        try {
+            EventDTO event = eventRepository.findById(id).orElseThrow(() ->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found with id: " + id));
 
-        event.setDeletedAt(Timestamp.from(Instant.now()));
-
-        return eventRepository.save(event);
+            event.setDeletedAt(Timestamp.from(Instant.now()));
+            eventRepository.save(event);
+            return ResponseEntity.ok("Event marked as deleted");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException("Failed deleting an event" + e);
+        }
     }
 }
