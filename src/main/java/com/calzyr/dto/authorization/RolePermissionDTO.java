@@ -1,6 +1,5 @@
 package com.calzyr.dto.authorization;
 
-import com.calzyr.dto.user.UserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
