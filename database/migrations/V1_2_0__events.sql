@@ -11,6 +11,4 @@ CREATE TABLE `events` (
 	`deleted_at` TIMESTAMP NULL,
 	`all_day` TINYINT(1) NULL,
 	PRIMARY KEY (`event_id`),
-	INDEX `user_id` (`user_id`),
-	CONSTRAINT `events_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON UPDATE NO ACTION ON DELETE NO ACTION
 )ENGINE=InnoDB AUTO_INCREMENT=1;
