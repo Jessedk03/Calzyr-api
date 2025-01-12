@@ -1,0 +1,15 @@
+CREATE TABLE `events` (
+	`event_id` INT NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255) NOT NULL,
+	`description` VARCHAR(255) NULL,
+	`start_time` DATETIME NOT NULL,
+	`end_time` DATETIME NOT NULL,
+	`location` VARCHAR(255) NULL,
+	`user_id` INT NULL,
+	`created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`deleted_at` TIMESTAMP NULL,
+	`all_day` TINYINT(1) NULL,
+	PRIMARY KEY (`event_id`),
+	FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1;
