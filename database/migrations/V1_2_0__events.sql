@@ -11,4 +11,5 @@ CREATE TABLE `events` (
 	`deleted_at` TIMESTAMP NULL,
 	`all_day` TINYINT(1) NULL,
 	PRIMARY KEY (`event_id`),
+	FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 )ENGINE=InnoDB AUTO_INCREMENT=1;
