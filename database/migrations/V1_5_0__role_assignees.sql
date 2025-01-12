@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS `role_assignees` (
+    `role_assignee_id` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT NOT NULL,
+    `role_id` INT NOT NULL,
+    `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (`role_assignee_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON DELETE CASCADE
+)ENGINE=InnoDB AUTO_INCREMENT=1
