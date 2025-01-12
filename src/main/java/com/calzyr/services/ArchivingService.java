@@ -54,6 +54,7 @@ public class ArchivingService {
 
         oldUsers.forEach(user -> {
             archiveRecord.setRecordType("user");
+            archiveRecord.setOriginalRecordId(user.getId());
             archiveRecord.setMovedAt(Timestamp.from(Instant.now()));
             archiveRecord.setPermanentDeletedAt(Timestamp.from(Instant.now().plus(90, ChronoUnit.DAYS)));
             archiveRecord.setAdditionalInformation(user.getEmail());
@@ -86,6 +87,7 @@ public class ArchivingService {
 
         oldEvents.forEach(event -> {
             archiveRecord.setRecordType("event");
+            archiveRecord.setOriginalRecordId(event.getId());
             archiveRecord.setMovedAt(Timestamp.from(Instant.now()));
             archiveRecord.setPermanentDeletedAt(Timestamp.from(Instant.now().plus(30, ChronoUnit.DAYS)));
             archiveRecord.setAdditionalInformation(event.getTitle());
