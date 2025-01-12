@@ -10,6 +10,6 @@ CREATE TABLE `archived_records` (
     `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `deleted_at` TIMESTAMP NULL DEFAULT NULL,
-	FOREIGN KEY (`modified_user_id`) REFERENCES `users`(`user_id`),
-	PRIMARY KEY (`archived_records_id`)
+	PRIMARY KEY (`archived_records_id`),
+	FOREIGN KEY (`modified_user_id`) REFERENCES `users`(`user_id`)
 )ENGINE=InnoDB AUTO_INCREMENT=1;
