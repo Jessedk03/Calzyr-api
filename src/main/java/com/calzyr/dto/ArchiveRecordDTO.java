@@ -14,11 +14,14 @@ public class ArchiveRecordDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "archived_records_id")
+    @Column(name = "archived_record_id")
     private Integer Id;
 
     @Column(name = "record_type")
     private String RecordType;
+
+    @Column(name = "original_record_id")
+    private Integer OriginalRecordId;
 
     @Column(name = "moved_at")
     private Timestamp MovedAt;
@@ -34,4 +37,13 @@ public class ArchiveRecordDTO {
 
     @Column(name = "modified_user_id")
     private Integer ModifiedUserId;
+
+    @Column(name = "created_at")
+    private Timestamp CreatedAt;
+
+    @Column(name = "updated_at")
+    private Timestamp UpdatedAt;
+
+    @Column(name = "deleted_at")
+    private Timestamp DeletedAt;
 }
