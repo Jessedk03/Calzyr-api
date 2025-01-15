@@ -1,4 +1,4 @@
-CREATE TABLE `archived_records` (
+CREATE TABLE IF NOT EXISTS `archived_records` (
 	`archived_record_id` INT NOT NULL AUTO_INCREMENT,
 	`record_type` VARCHAR(255) NOT NULL,
 	`original_record_id` INT NOT NULL,
