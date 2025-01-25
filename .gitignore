@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 ### Local Config ###
-.env
+env
 
 ### Logging ###
 logs/
