@@ -12,6 +12,4 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
-    
-
 }
