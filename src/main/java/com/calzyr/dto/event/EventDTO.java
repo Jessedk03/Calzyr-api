@@ -1,4 +1,4 @@
-package com.calzyr.dto.events;
+package com.calzyr.dto.event;
 
 import com.calzyr.dto.user.UserDTO;
 import jakarta.persistence.*;
