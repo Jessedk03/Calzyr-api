@@ -39,6 +39,8 @@ public class UserDTO {
     private Timestamp DeletedAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<RoleDTO> roles = new HashSet<>();
+    @JoinTable(name = "role_assignees", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
+    private Set<RoleDTO> roles;
 
 }
