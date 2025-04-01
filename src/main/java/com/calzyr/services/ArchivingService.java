@@ -1,7 +1,7 @@
 package com.calzyr.services;
 
 import com.calzyr.dto.ArchiveRecordDTO;
-import com.calzyr.dto.events.EventDTO;
+import com.calzyr.dto.event.EventDTO;
 import com.calzyr.dto.user.UserDTO;
 import com.calzyr.repositories.ArchiveRecordRepository;
 import com.calzyr.repositories.EventRepository;
