@@ -1,7 +1,7 @@
 package com.calzyr.controllers.auth;
 
 import com.calzyr.dto.authentication.JwtAuthResponse;
-import com.calzyr.dto.authentication.LoginDto;
+import com.calzyr.dto.authentication.LoginDTO;
 import com.calzyr.repositories.UserRepository;
 import com.calzyr.services.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class LoginController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDTO loginDto) {
         long startTime = System.currentTimeMillis();
         String token = authService.login(loginDto);
 
@@ -38,5 +38,11 @@ public class LoginController {
         }
 
         return new ResponseEntity<>(jwtAuthResponse, HttpStatusCode.valueOf(200));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtAuthResponse> refreshToken(@RequestBody LoginDTO loginDto) {
+        // Hier moet nog code komen.
+        return ResponseEntity.ok(new JwtAuthResponse());
     }
 }

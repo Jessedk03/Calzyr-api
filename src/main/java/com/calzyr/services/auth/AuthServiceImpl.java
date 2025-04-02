@@ -1,6 +1,6 @@
 package com.calzyr.services.auth;
 
-import com.calzyr.dto.authentication.LoginDto;
+import com.calzyr.dto.authentication.LoginDTO;
 import com.calzyr.security.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +18,7 @@ public class AuthServiceImpl implements AuthService {
     private JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public String login(LoginDto loginDto) {
+    public String login(LoginDTO loginDto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getUsernameOrEmail(),
                 loginDto.getPassword()

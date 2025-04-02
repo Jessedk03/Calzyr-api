@@ -1,7 +1,7 @@
 package com.calzyr.services.auth;
 
-import com.calzyr.dto.authentication.LoginDto;
+import com.calzyr.dto.authentication.LoginDTO;
 
 public interface AuthService {
-    String login(LoginDto loginDto);
+    String login(LoginDTO loginDto);
 }
