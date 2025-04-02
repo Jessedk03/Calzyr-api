@@ -15,7 +15,7 @@ public interface UserRepository extends CrudRepository<UserDTO, Integer> {
     @Query("SELECT u FROM UserDTO u WHERE u.DeletedAt IS NULL")
     Iterable<UserDTO> findAllActiveUsers();
 
-    @Query("SELECT u FROM UserDTO u WHERE u.DeletedAt IS NULL AND (u.Username = :username OR u.Email = :email)")
+    @Query("SELECT u.Username, u.Email FROM UserDTO u WHERE u.DeletedAt IS NULL AND (u.Username = :username OR u.Email = :email)")
     Optional<UserDTO> findByUsernameOrEmail(String username, String email);
 
     @Query("SELECT u FROM UserDTO u WHERE u.DeletedAt IS NOT NULL AND u.DeletedAt < :date")
