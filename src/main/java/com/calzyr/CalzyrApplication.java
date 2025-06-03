@@ -11,7 +11,7 @@ public class CalzyrApplication {
 
 	public static void main(String[] args) {
 
-		EnvConfig.loadenv();
+		EnvConfig.loadEnv();
 
 		SpringApplication.run(CalzyrApplication.class, args);
 	}

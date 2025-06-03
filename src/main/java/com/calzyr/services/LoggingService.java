@@ -6,6 +6,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.logging.Logger;
 
 @Service
@@ -13,9 +15,10 @@ public class LoggingService {
 
     private static final Logger LOGGER = Logger.getLogger(LoggingService.class.getName());
 
-    public void archiveLog(String message) throws IOException {
+    public void saveLog(String folder, String message) throws IOException {
         folderCheck();
-        File logFile = new File("logs/archive_logs.txt");
+        subFolderCheck(folder);
+        File logFile = new File("logs/" + folder + "/" + new Date() + ".txt");
 
         try (BufferedWriter log = new BufferedWriter(new FileWriter(logFile, true))) {
             log.write(message);
@@ -30,6 +33,13 @@ public class LoggingService {
         File directory = new File("logs");
         if (!directory.exists()) {
             directory.mkdirs();
+        }
+    }
+
+    private void subFolderCheck(String subFolder) {
+        File subDir = new File(subFolder);
+        if (!subDir.exists()) {
+            subDir.mkdirs();
         }
     }
 }

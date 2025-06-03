@@ -4,7 +4,9 @@ import com.calzyr.dto.ArchiveRecordDTO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ArchiveRecordRepository extends CrudRepository<ArchiveRecordDTO, Integer> {
 
     @Query("SELECT ar FROM ArchiveRecordDTO ar")

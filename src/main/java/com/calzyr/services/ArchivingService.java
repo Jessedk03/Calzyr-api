@@ -1,7 +1,7 @@
 package com.calzyr.services;
 
 import com.calzyr.dto.ArchiveRecordDTO;
-import com.calzyr.dto.events.EventDTO;
+import com.calzyr.dto.event.EventDTO;
 import com.calzyr.dto.user.UserDTO;
 import com.calzyr.repositories.ArchiveRecordRepository;
 import com.calzyr.repositories.EventRepository;
@@ -65,10 +65,10 @@ public class ArchivingService {
                 archiveRecordRepository.save(archiveRecord);
                 userRepository.delete(user);
 
-                loggingService.archiveLog("[" + Timestamp.from(Instant.now()) + "]" + " Archiving user: " + user.getEmail() + " successful");
+                loggingService.saveLog("archive_logs", "[" + Timestamp.from(Instant.now()) + "]" + " Archiving user: " + user.getEmail() + " successful");
             } catch (Exception e) {
                 try {
-                    loggingService.archiveLog("[" + Timestamp.from(Instant.now()) + "]" + " Archiving old users failed: " + e.getMessage() + " Cause: " + e.getCause());
+                    loggingService.saveLog("archive_logs","[" + Timestamp.from(Instant.now()) + "]" + " Archiving old users failed: " + e.getMessage() + " Cause: " + e.getCause());
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -98,10 +98,10 @@ public class ArchivingService {
                 archiveRecordRepository.save(archiveRecord);
                 eventRepository.delete(event);
 
-                loggingService.archiveLog("[" + Timestamp.from(Instant.now()) + "]" + " Archiving event: " + event.getTitle() + " successful");
+                loggingService.saveLog("archive_logs","[" + Timestamp.from(Instant.now()) + "]" + " Archiving event: " + event.getTitle() + " successful");
             } catch (Exception e) {
                 try {
-                    loggingService.archiveLog("[" + Timestamp.from(Instant.now()) + "]" + " Archiving old events failed: " + e.getMessage() + " Cause: " + e.getCause());
+                    loggingService.saveLog("archive_logs","[" + Timestamp.from(Instant.now()) + "]" + " Archiving old events failed: " + e.getMessage() + " Cause: " + e.getCause());
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

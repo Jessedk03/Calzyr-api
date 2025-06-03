@@ -1,6 +1,6 @@
 package com.calzyr.controllers;
 
-import com.calzyr.dto.events.EventDTO;
+import com.calzyr.dto.event.EventDTO;
 import com.calzyr.dto.user.UserDTO;
 import com.calzyr.dto.user.UserResponseDTO;
 import com.calzyr.repositories.EventRepository;

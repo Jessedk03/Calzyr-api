@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS `refresh_tokens` (
+    `refresh_token_id`  INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT NOT NULL,
+    `access_token` VARCHAR(512) NOT NULL,
+    `refresh_token` VARCHAR(512) NOT NULL UNIQUE,
+    `issued_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `refreshed_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `expired` TINYINT(1) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`refresh_token_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+)ENGINE=InnoDB AUTO_INCREMENT=1
