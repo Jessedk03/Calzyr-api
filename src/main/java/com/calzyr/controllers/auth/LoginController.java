@@ -5,6 +5,8 @@ import com.calzyr.dto.authentication.LoginDTO;
 import com.calzyr.repositories.UserRepository;
 import com.calzyr.security.JwtTokenProvider;
 import com.calzyr.services.auth.AuthService;
+import com.calzyr.services.auth.CookieService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +29,16 @@ public class LoginController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private CookieService cookieService;
+
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDTO loginDto) throws IOException {
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDTO loginDto, HttpServletResponse response) throws IOException {
         long startTime = System.currentTimeMillis();
         String token = authService.login(loginDto);
+
+        // Set Cookie.
+        cookieService.setAccessToken(response, token);
 
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setAccessToken(token);
