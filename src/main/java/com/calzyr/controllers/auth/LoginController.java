@@ -3,11 +3,15 @@ package com.calzyr.controllers.auth;
 import com.calzyr.dto.authentication.JwtAuthResponse;
 import com.calzyr.dto.authentication.LoginDTO;
 import com.calzyr.repositories.UserRepository;
+import com.calzyr.security.JwtTokenProvider;
 import com.calzyr.services.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -20,8 +24,11 @@ public class LoginController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDTO loginDto) {
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDTO loginDto) throws IOException {
         long startTime = System.currentTimeMillis();
         String token = authService.login(loginDto);
 
@@ -34,15 +41,20 @@ public class LoginController {
         if (remainingTime > 0) {
             try {
                 Thread.sleep(remainingTime);
-            } catch (InterruptedException ignored) {}
+            } catch (InterruptedException ignored) {
+            }
         }
 
         return new ResponseEntity<>(jwtAuthResponse, HttpStatusCode.valueOf(200));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<JwtAuthResponse> refreshToken(@RequestBody LoginDTO loginDto) {
-        // Hier moet nog code komen.
-        return ResponseEntity.ok(new JwtAuthResponse());
+    public ResponseEntity<JwtAuthResponse> refreshToken(@RequestBody Map<String, String> request) throws IOException {
+        String refreshToken = request.get("refreshToken");
+        JwtAuthResponse jwtAuthResponse = jwtTokenProvider.refreshToken(refreshToken);
+        if (jwtAuthResponse != null) {
+            return ResponseEntity.ok(jwtAuthResponse);
+        }
+        return ResponseEntity.status(401).build();
     }
 }
