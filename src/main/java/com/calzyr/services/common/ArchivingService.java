@@ -1,4 +1,4 @@
-package com.calzyr.services;
+package com.calzyr.services.common;
 
 import com.calzyr.entities.archive.ArchiveRecord;
 import com.calzyr.entities.event.Event;
