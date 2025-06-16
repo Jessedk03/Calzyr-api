@@ -2,102 +2,41 @@ package com.calzyr.controllers;
 
 import com.calzyr.dtos.event.EventResponseDTO;
 import com.calzyr.entities.event.Event;
-import com.calzyr.entities.user.User;
-import com.calzyr.repositories.EventRepository;
-import com.calzyr.repositories.UserRepository;
+import com.calzyr.services.event.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/events")
 public class EventController {
 
     @Autowired
-    private EventRepository eventRepository;
-    private final UserRepository userRepository;
-
-    public EventController(EventRepository eventRepository, UserRepository userRepository) {
-        this.eventRepository = eventRepository;
-        this.userRepository = userRepository;
-    }
+    private EventService eventService;
 
     @GetMapping
-    public Iterable<Event> getAllEvents() {
-        return eventRepository.findAllEvents();
+    public Iterable<?> getAllEvents() {
+        return eventService.getAllEvents();
     }
 
     @GetMapping("/{id}")
-    public Optional<Event> getEventById(@PathVariable Integer id) {
-        return eventRepository.findById(id);
+    public EventResponseDTO getEventById(@PathVariable Integer id) {
+        return eventService.getEventById(id);
     }
 
     @PostMapping
-    public EventResponseDTO createEvent(@RequestBody Event eventDetails) {
-
-        try {
-            User user = userRepository.findById(eventDetails.getUserId().getId())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
-
-            Event event = new Event();
-            event.setTitle(eventDetails.getTitle());
-            event.setDescription(eventDetails.getDescription());
-            event.setStartTime(eventDetails.getStartTime());
-            event.setEndTime(eventDetails.getEndTime());
-            event.setLocation(eventDetails.getLocation());
-            event.setUserId(user);
-            event.setCreatedAt(Timestamp.from(Instant.now()));
-            event.setAllDay(eventDetails.getAllDay());
-
-            Event savedEvent = eventRepository.save(event);
-            return new EventResponseDTO(savedEvent);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException("Failed creating an event", e);
-        }
+    public EventResponseDTO createEvent(@RequestBody Event newEvent) {
+        return eventService.createEvent(newEvent);
     }
 
     @PatchMapping("/{id}/update")
-    public EventResponseDTO updateEvent(@PathVariable Integer id, @RequestBody Event eventDetails) {
-        try {
-            Event event = eventRepository.findById(id).orElseThrow(() ->
-                    new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found with id: " + id));
-
-            event.setTitle(eventDetails.getTitle());
-            event.setDescription(eventDetails.getDescription());
-            event.setStartTime(eventDetails.getStartTime());
-            event.setEndTime(eventDetails.getEndTime());
-            event.setLocation(eventDetails.getLocation());
-            event.setUserId(eventDetails.getUserId());
-            event.setUpdatedAt(Timestamp.from(Instant.now()));
-            event.setAllDay(eventDetails.getAllDay());
-
-            Event savedEvent = eventRepository.save(event);
-            return new EventResponseDTO(savedEvent);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException("Failed updating an event" + e);
-        }
+    public EventResponseDTO updateEvent(@PathVariable Integer id, @RequestBody Event oldEventData) {
+        return eventService.updateEvent(id, oldEventData);
     }
 
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<String> deleteEvent(@PathVariable Integer id) {
-        try {
-            Event event = eventRepository.findById(id).orElseThrow(() ->
-                    new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found with id: " + id));
-
-            event.setDeletedAt(Timestamp.from(Instant.now()));
-            eventRepository.save(event);
-            return ResponseEntity.ok("Event marked as deleted");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException("Failed deleting an event" + e);
-        }
+        eventService.deleteEvent(id);
+        return ResponseEntity.ok("Successfully marked event for deletion. #" + id);
     }
 }
