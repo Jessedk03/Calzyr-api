@@ -4,7 +4,7 @@ import com.calzyr.dtos.authentication.JwtAuthResponseDTO;
 import com.calzyr.entities.authentication.RefreshToken;
 import com.calzyr.repositories.UserRepository;
 import com.calzyr.repositories.authentication.RefreshTokenRepository;
-import com.calzyr.services.LoggingService;
+import com.calzyr.services.common.LoggingService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
