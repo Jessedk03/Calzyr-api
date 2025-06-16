@@ -23,7 +23,7 @@ public class EventService {
     @Autowired
     private UserRepository userRepository;
 
-//    Get all events
+    //    Get all events
     public Iterable<EventResponseDTO> getAllEvents() {
         Iterable<Event> events = eventRepository.findAllEvents();
         List<EventResponseDTO> dtoList = new ArrayList<>();
@@ -34,14 +34,14 @@ public class EventService {
         return dtoList;
     }
 
-//    Get event by id
+    //    Get event by id
     public EventResponseDTO getEventById(Integer id) {
         return eventRepository.findById(id)
                 .map(EventResponseDTO::new)
                 .orElseThrow(() -> new NotFoundException("Event not found."));
     }
 
-//    Create event
+    //    Create event
     public EventResponseDTO createEvent(Event newEvent) {
         User user = userRepository.findById(newEvent.getUserId().getId())
                 .orElseThrow(() -> new NotFoundException("Event not found"));
@@ -60,7 +60,7 @@ public class EventService {
         return new EventResponseDTO(savedEvent);
     }
 
-//    Update event
+    //    Update event
     public EventResponseDTO updateEvent(Integer id, Event oldEventData) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Event not found"));
@@ -78,7 +78,7 @@ public class EventService {
         return new EventResponseDTO(updatedEvent);
     }
 
-//    Delete event
+    //    Delete event
     public void deleteEvent(Integer id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Event not found"));
