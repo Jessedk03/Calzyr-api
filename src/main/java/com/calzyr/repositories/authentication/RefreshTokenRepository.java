@@ -1,6 +1,6 @@
 package com.calzyr.repositories.authentication;
 
-import com.calzyr.entity.authentication.RefreshToken;
+import com.calzyr.entities.authentication.RefreshToken;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

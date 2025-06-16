@@ -1,6 +1,6 @@
 package com.calzyr.services.auth;
 
-import com.calzyr.entity.user.User;
+import com.calzyr.entities.user.User;
 import com.calzyr.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

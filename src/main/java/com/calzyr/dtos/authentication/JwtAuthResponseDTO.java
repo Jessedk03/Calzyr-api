@@ -1,4 +1,4 @@
-package com.calzyr.dto.authentication;
+package com.calzyr.dtos.authentication;
 
 import lombok.*;
 

@@ -1,7 +1,7 @@
 package com.calzyr.security;
 
-import com.calzyr.dto.authentication.JwtAuthResponseDTO;
-import com.calzyr.entity.authentication.RefreshToken;
+import com.calzyr.dtos.authentication.JwtAuthResponseDTO;
+import com.calzyr.entities.authentication.RefreshToken;
 import com.calzyr.repositories.UserRepository;
 import com.calzyr.repositories.authentication.RefreshTokenRepository;
 import com.calzyr.services.LoggingService;

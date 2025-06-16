@@ -1,6 +1,6 @@
 package com.calzyr.services.auth;
 
-import com.calzyr.dto.authentication.LoginDTO;
+import com.calzyr.dtos.authentication.LoginDTO;
 
 import java.io.IOException;
 

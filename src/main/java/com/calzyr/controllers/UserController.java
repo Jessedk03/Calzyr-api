@@ -1,8 +1,8 @@
 package com.calzyr.controllers;
 
-import com.calzyr.entity.event.Event;
-import com.calzyr.entity.user.User;
-import com.calzyr.dto.user.UserResponseDTO;
+import com.calzyr.entities.event.Event;
+import com.calzyr.entities.user.User;
+import com.calzyr.dtos.user.UserResponseDTO;
 import com.calzyr.repositories.EventRepository;
 import com.calzyr.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

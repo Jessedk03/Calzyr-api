@@ -1,4 +1,4 @@
-package com.calzyr.entity.authentication;
+package com.calzyr.entities.authentication;
 
 import jakarta.persistence.*;
 import lombok.Getter;

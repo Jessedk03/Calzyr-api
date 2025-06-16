@@ -1,6 +1,6 @@
-package com.calzyr.dto.authorization;
+package com.calzyr.dtos.authorization;
 
-import com.calzyr.entity.authorization.Permission;
+import com.calzyr.entities.authorization.Permission;
 import lombok.Getter;
 import lombok.Setter;
 

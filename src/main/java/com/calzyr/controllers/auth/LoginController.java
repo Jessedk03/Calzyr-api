@@ -1,10 +1,10 @@
 package com.calzyr.controllers.auth;
 
-import com.calzyr.dto.authentication.JwtAuthResponseDTO;
-import com.calzyr.dto.authentication.LoginDTO;
-import com.calzyr.dto.authentication.LoginResponseDTO;
-import com.calzyr.entity.user.User;
-import com.calzyr.dto.user.UserResponseDTO;
+import com.calzyr.dtos.authentication.JwtAuthResponseDTO;
+import com.calzyr.dtos.authentication.LoginDTO;
+import com.calzyr.dtos.authentication.LoginResponseDTO;
+import com.calzyr.entities.user.User;
+import com.calzyr.dtos.user.UserResponseDTO;
 import com.calzyr.repositories.UserRepository;
 import com.calzyr.security.JwtTokenProvider;
 import com.calzyr.services.auth.AuthService;

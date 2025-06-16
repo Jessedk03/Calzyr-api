@@ -1,6 +1,6 @@
 package com.calzyr.repositories;
 
-import com.calzyr.entity.archive.ArchiveRecord;
+import com.calzyr.entities.archive.ArchiveRecord;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

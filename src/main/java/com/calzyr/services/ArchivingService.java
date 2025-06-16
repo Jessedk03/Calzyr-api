@@ -1,8 +1,8 @@
 package com.calzyr.services;
 
-import com.calzyr.entity.archive.ArchiveRecord;
-import com.calzyr.entity.event.Event;
-import com.calzyr.entity.user.User;
+import com.calzyr.entities.archive.ArchiveRecord;
+import com.calzyr.entities.event.Event;
+import com.calzyr.entities.user.User;
 import com.calzyr.repositories.ArchiveRecordRepository;
 import com.calzyr.repositories.EventRepository;
 import com.calzyr.repositories.UserRepository;

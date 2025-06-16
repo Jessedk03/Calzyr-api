@@ -1,4 +1,4 @@
-package com.calzyr.entity.archive;
+package com.calzyr.entities.archive;
 
 import jakarta.persistence.*;
 import lombok.Getter;
