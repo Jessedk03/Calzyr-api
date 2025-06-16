@@ -2,21 +2,25 @@ package com.calzyr.controllers.auth;
 
 import com.calzyr.dto.authentication.JwtAuthResponse;
 import com.calzyr.dto.authentication.LoginDTO;
+import com.calzyr.dto.authentication.LoginResponseDTO;
+import com.calzyr.dto.user.UserDTO;
+import com.calzyr.dto.user.UserResponseDTO;
 import com.calzyr.repositories.UserRepository;
 import com.calzyr.security.JwtTokenProvider;
 import com.calzyr.services.auth.AuthService;
 import com.calzyr.services.auth.CookieService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5174")
 @RequestMapping("/auth")
 public class LoginController {
 
@@ -33,15 +37,30 @@ public class LoginController {
     private CookieService cookieService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDTO loginDto, HttpServletResponse response) throws IOException {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDto, HttpServletResponse response) throws IOException {
         long startTime = System.currentTimeMillis();
+
+        // Genereer token
         String token = authService.login(loginDto);
 
-        // Set Cookie.
+        // Haal de gebruiker op
+        Optional<UserDTO> optionalUser = userRepository.findByUsernameOrEmail(
+                loginDto.getUsernameOrEmail(), loginDto.getUsernameOrEmail()
+        );
+
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        UserDTO user = optionalUser.get();
+
+        // Zet cookie
         cookieService.setAccessToken(response, token);
 
-        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
-        jwtAuthResponse.setAccessToken(token);
+        // TODO: Voeg hier de Subscription ook aan toe.
+        UserResponseDTO userResponse = new UserResponseDTO(user);
+
+        LoginResponseDTO loginResponse = new LoginResponseDTO(token, "Bearer", userResponse);
 
         long elapsedTime = System.currentTimeMillis() - startTime;
         long remainingTime = 1000 - elapsedTime;
@@ -53,7 +72,7 @@ public class LoginController {
             }
         }
 
-        return new ResponseEntity<>(jwtAuthResponse, HttpStatusCode.valueOf(200));
+        return ResponseEntity.ok(loginResponse);
     }
 
     @PostMapping("/refresh")
