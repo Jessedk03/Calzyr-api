@@ -4,6 +4,7 @@ import com.calzyr.dtos.event.EventResponseDTO;
 import com.calzyr.dtos.user.UserResponseDTO;
 import com.calzyr.entities.event.Event;
 import com.calzyr.entities.user.User;
+import com.calzyr.exceptions.NotFoundException;
 import com.calzyr.repositories.EventRepository;
 import com.calzyr.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class UserService {
     public UserResponseDTO getUserById(Integer id) {
         return userRepository.findById(id)
                 .map(UserResponseDTO::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     //    Get events from the user
@@ -72,7 +73,7 @@ public class UserService {
     //    Update existing user
     public UserResponseDTO updateUser(Integer id, User oldUserData) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
         user.setUsername(oldUserData.getUsername());
         user.setEmail(oldUserData.getEmail());
@@ -85,7 +86,7 @@ public class UserService {
     //    Delete user
     public void deleteUser(Integer id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
         user.setDeletedAt(Timestamp.from(Instant.now()));
 
