@@ -2,12 +2,10 @@ package com.calzyr.controllers;
 
 import com.calzyr.entities.user.User;
 import com.calzyr.dtos.user.UserResponseDTO;
-import com.calzyr.services.UserService;
+import com.calzyr.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
