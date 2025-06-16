@@ -1,6 +1,6 @@
-package com.calzyr.dto.user;
+package com.calzyr.dtos.user;
 
-import com.calzyr.entity.user.User;
+import com.calzyr.entities.user.User;
 import lombok.Getter;
 import lombok.Setter;
 

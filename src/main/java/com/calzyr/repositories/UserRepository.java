@@ -1,6 +1,6 @@
 package com.calzyr.repositories;
 
-import com.calzyr.entity.user.User;
+import com.calzyr.entities.user.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

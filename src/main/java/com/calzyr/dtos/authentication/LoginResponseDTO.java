@@ -1,6 +1,6 @@
-package com.calzyr.dto.authentication;
+package com.calzyr.dtos.authentication;
 
-import com.calzyr.dto.user.UserResponseDTO;
+import com.calzyr.dtos.user.UserResponseDTO;
 import lombok.*;
 
 @Setter

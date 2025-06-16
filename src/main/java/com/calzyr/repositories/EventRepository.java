@@ -1,6 +1,6 @@
 package com.calzyr.repositories;
 
-import com.calzyr.entity.event.Event;
+import com.calzyr.entities.event.Event;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

@@ -1,6 +1,6 @@
-package com.calzyr.entity.user;
+package com.calzyr.entities.user;
 
-import com.calzyr.entity.authorization.Role;
+import com.calzyr.entities.authorization.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

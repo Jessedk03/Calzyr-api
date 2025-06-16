@@ -1,6 +1,6 @@
 package com.calzyr.controllers;
 
-import com.calzyr.entity.archive.ArchiveRecord;
+import com.calzyr.entities.archive.ArchiveRecord;
 import com.calzyr.repositories.ArchiveRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

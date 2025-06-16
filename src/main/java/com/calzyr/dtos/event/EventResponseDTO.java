@@ -1,6 +1,6 @@
-package com.calzyr.dto.event;
+package com.calzyr.dtos.event;
 
-import com.calzyr.entity.event.Event;
+import com.calzyr.entities.event.Event;
 import lombok.Getter;
 import lombok.Setter;
 
