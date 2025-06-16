@@ -1,8 +1,8 @@
 package com.calzyr.services;
 
-import com.calzyr.dto.ArchiveRecordDTO;
-import com.calzyr.dto.event.EventDTO;
-import com.calzyr.dto.user.UserDTO;
+import com.calzyr.entity.archive.ArchiveRecord;
+import com.calzyr.entity.event.Event;
+import com.calzyr.entity.user.User;
 import com.calzyr.repositories.ArchiveRecordRepository;
 import com.calzyr.repositories.EventRepository;
 import com.calzyr.repositories.UserRepository;
@@ -37,15 +37,15 @@ public class ArchivingService {
 
         LocalDateTime fourteenDaysAgo = LocalDateTime.now().minusDays(14);
 
-        ArchiveRecordDTO archiveRecord = new ArchiveRecordDTO();
+        ArchiveRecord archiveRecord = new ArchiveRecord();
 
         archiveDeletedUsers(fourteenDaysAgo, archiveRecord);
         archiveDeletedEvents(fourteenDaysAgo, archiveRecord);
     }
 
-    private void archiveDeletedUsers(LocalDateTime dayTimer, ArchiveRecordDTO archiveRecord) {
+    private void archiveDeletedUsers(LocalDateTime dayTimer, ArchiveRecord archiveRecord) {
 
-        List<UserDTO> oldUsers = userRepository.findAllInactiveUsers(dayTimer);
+        List<User> oldUsers = userRepository.findAllInactiveUsers(dayTimer);
 
         if (oldUsers.isEmpty()) {
             System.out.println("No deleted records of Users, Archiving exited.");
@@ -76,9 +76,9 @@ public class ArchivingService {
         });
     }
 
-    private void archiveDeletedEvents(LocalDateTime dayTimer, ArchiveRecordDTO archiveRecord) {
+    private void archiveDeletedEvents(LocalDateTime dayTimer, ArchiveRecord archiveRecord) {
 
-        List<EventDTO> oldEvents = eventRepository.findAllDeletedEvents(dayTimer);
+        List<Event> oldEvents = eventRepository.findAllDeletedEvents(dayTimer);
 
         if (oldEvents.isEmpty()) {
             System.out.println("No deleted records of Events, Archiving exited.");

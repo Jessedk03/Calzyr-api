@@ -1,7 +1,7 @@
 package com.calzyr.controllers;
 
-import com.calzyr.dto.event.EventDTO;
-import com.calzyr.dto.user.UserDTO;
+import com.calzyr.entity.event.Event;
+import com.calzyr.entity.user.User;
 import com.calzyr.dto.user.UserResponseDTO;
 import com.calzyr.repositories.EventRepository;
 import com.calzyr.repositories.UserRepository;
@@ -34,41 +34,42 @@ public class UserController {
     }
 
     @GetMapping
-    public Iterable<UserDTO> getAllUsers() {
+    public Iterable<User> getAllUsers() {
         return userRepository.findAllActiveUsers();
     }
 
     @GetMapping("/me")
-    public Optional<UserResponseDTO> getUserInformation(Integer id) {
-        Optional<UserDTO> userRepo = userRepository.findById(id);
+    public String getUserInformation(Integer id) {
+        Optional<User> userRepo = userRepository.findById(id);
         if (userRepo.isEmpty()) {
-            return Optional.empty();
+            return "Optional.empty()";
         }
 
 //        TODO: Finish Subscription and finish this function idiot.
+        return "";
     }
 
     @GetMapping("/{id}")
-    public Optional<UserDTO> getUserById(@PathVariable Integer id) {
+    public Optional<User> getUserById(@PathVariable Integer id) {
         return userRepository.findById(id);
     }
 
     @GetMapping("/{id}/events")
-    public Iterable<EventDTO> getEventsFromUserByUserId(@PathVariable Integer id) {
+    public Iterable<Event> getEventsFromUserByUserId(@PathVariable Integer id) {
         return eventRepository.findByUserId(id);
     }
 
     @PostMapping
-    public UserResponseDTO createUser(@RequestBody UserDTO newUser) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public UserResponseDTO createUser(@RequestBody User newUser) throws NoSuchAlgorithmException, InvalidKeySpecException {
         try {
-            UserDTO user = new UserDTO();
+            User user = new User();
 
             user.setUsername(newUser.getUsername());
             user.setEmail(newUser.getEmail());
             user.setPassword(passwordEncoder.encode(newUser.getPassword()));
             user.setCreatedAt(Timestamp.from(Instant.now()));
 
-            UserDTO savedUser = userRepository.save(user);
+            User savedUser = userRepository.save(user);
             return new UserResponseDTO(savedUser);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -77,16 +78,16 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/update")
-    public UserResponseDTO updateUser(@PathVariable Integer id, @RequestBody UserDTO userDetails) {
+    public UserResponseDTO updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
         try {
-            UserDTO user = userRepository.findById(id).orElseThrow(() ->
+            User user = userRepository.findById(id).orElseThrow(() ->
                     new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id " + id));
 
             user.setUsername(userDetails.getUsername());
             user.setEmail(userDetails.getEmail());
             user.setUpdatedAt(Timestamp.from(Instant.now()));
 
-            UserDTO savedUser = userRepository.save(user);
+            User savedUser = userRepository.save(user);
             return new UserResponseDTO(savedUser);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -97,7 +98,7 @@ public class UserController {
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
         try {
-            UserDTO user = userRepository.findById(id).orElseThrow(() ->
+            User user = userRepository.findById(id).orElseThrow(() ->
                     new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id " + id));
 
             user.setDeletedAt(Timestamp.from(Instant.now()));

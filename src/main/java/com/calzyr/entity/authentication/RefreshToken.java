@@ -1,4 +1,4 @@
-package com.calzyr.dto.authentication;
+package com.calzyr.entity.authentication;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Getter
 @Entity
 @Table(name = "refresh_tokens")
-public class RefreshTokenDTO {
+public class RefreshToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,9 +1,8 @@
 package com.calzyr.dto.user;
 
+import com.calzyr.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -12,7 +11,7 @@ public class UserResponseDTO {
     private String username;
     private String email;
 
-    public UserResponseDTO(UserDTO user) {
+    public UserResponseDTO(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.email = user.getEmail();

@@ -1,4 +1,4 @@
-package com.calzyr.dto;
+package com.calzyr.entity.archive;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Setter
 @Entity
 @Table(name = "archived_records")
-public class ArchiveRecordDTO {
+public class ArchiveRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
