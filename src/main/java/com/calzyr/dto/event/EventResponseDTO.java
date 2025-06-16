@@ -1,5 +1,6 @@
 package com.calzyr.dto.event;
 
+import com.calzyr.entity.event.Event;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,7 @@ public class EventResponseDTO {
     private boolean allDay;
     private int userId;
 
-    public EventResponseDTO(EventDTO event) {
+    public EventResponseDTO(Event event) {
         this.id = event.getId();
         this.title = event.getTitle();
         this.description = event.getDescription();

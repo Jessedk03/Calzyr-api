@@ -1,9 +1,9 @@
 package com.calzyr.controllers.auth;
 
-import com.calzyr.dto.authentication.JwtAuthResponse;
+import com.calzyr.dto.authentication.JwtAuthResponseDTO;
 import com.calzyr.dto.authentication.LoginDTO;
 import com.calzyr.dto.authentication.LoginResponseDTO;
-import com.calzyr.dto.user.UserDTO;
+import com.calzyr.entity.user.User;
 import com.calzyr.dto.user.UserResponseDTO;
 import com.calzyr.repositories.UserRepository;
 import com.calzyr.security.JwtTokenProvider;
@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "")
 @RequestMapping("/auth")
 public class LoginController {
 
@@ -44,7 +44,7 @@ public class LoginController {
         String token = authService.login(loginDto);
 
         // Haal de gebruiker op
-        Optional<UserDTO> optionalUser = userRepository.findByUsernameOrEmail(
+        Optional<User> optionalUser = userRepository.findByUsernameOrEmail(
                 loginDto.getUsernameOrEmail(), loginDto.getUsernameOrEmail()
         );
 
@@ -52,7 +52,7 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        UserDTO user = optionalUser.get();
+        User user = optionalUser.get();
 
         // Zet cookie
         cookieService.setAccessToken(response, token);
@@ -76,11 +76,11 @@ public class LoginController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<JwtAuthResponse> refreshToken(@RequestBody Map<String, String> request) throws IOException {
+    public ResponseEntity<JwtAuthResponseDTO> refreshToken(@RequestBody Map<String, String> request) throws IOException {
         String refreshToken = request.get("refreshToken");
-        JwtAuthResponse jwtAuthResponse = jwtTokenProvider.refreshToken(refreshToken);
-        if (jwtAuthResponse != null) {
-            return ResponseEntity.ok(jwtAuthResponse);
+        JwtAuthResponseDTO jwtAuthResponseDTO = jwtTokenProvider.refreshToken(refreshToken);
+        if (jwtAuthResponseDTO != null) {
+            return ResponseEntity.ok(jwtAuthResponseDTO);
         }
         return ResponseEntity.status(401).build();
     }

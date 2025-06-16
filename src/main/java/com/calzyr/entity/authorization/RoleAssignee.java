@@ -1,28 +1,30 @@
-package com.calzyr.dto.authorization;
+package com.calzyr.entity.authorization;
 
+import com.calzyr.entity.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
 @Entity
-public class RolePermissionDTO {
+@Table(name = "role_assignees")
+public class RoleAssignee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_permission_id")
-    private int RolePermissionId;
+    @Column(name = "role_assignee_id")
+    private int RoleAssigneeId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User UserId;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
-    private RoleDTO RoleId;
-
-    @ManyToOne
-    @JoinColumn(name = "permission_id", nullable = false)
-    private PermissionDTO PermissionId;
+    private Role RoleId;
 
     @Column(name = "created_at")
     private Timestamp CreatedAt;

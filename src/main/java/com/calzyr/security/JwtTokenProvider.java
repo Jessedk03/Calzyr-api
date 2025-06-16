@@ -1,8 +1,7 @@
 package com.calzyr.security;
 
-import com.calzyr.dto.authentication.JwtAuthResponse;
-import com.calzyr.dto.authentication.RefreshTokenDTO;
-import com.calzyr.dto.user.UserDTO;
+import com.calzyr.dto.authentication.JwtAuthResponseDTO;
+import com.calzyr.entity.authentication.RefreshToken;
 import com.calzyr.repositories.UserRepository;
 import com.calzyr.repositories.authentication.RefreshTokenRepository;
 import com.calzyr.services.LoggingService;
@@ -16,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.security.Key;
 import java.sql.Timestamp;
@@ -46,20 +44,20 @@ public class JwtTokenProvider {
     @Autowired
     private LoggingService loggingService;
 
-    public JwtAuthResponse refreshToken(String refreshToken) throws IOException {
+    public JwtAuthResponseDTO refreshToken(String refreshToken) throws IOException {
         if (!validateToken(refreshToken)) {
             return null;
         }
 
         String username = getUsername(refreshToken);
 
-        Optional<RefreshTokenDTO> optionalToken = refreshTokenRepository.findByRefreshToken(refreshToken);
+        Optional<RefreshToken> optionalToken = refreshTokenRepository.findByRefreshToken(refreshToken);
 
         if (optionalToken.isEmpty()) {
             return null;
         }
 
-        RefreshTokenDTO storedToken = optionalToken.get();
+        RefreshToken storedToken = optionalToken.get();
 
         if (Boolean.TRUE.equals(storedToken.getExpired())) {
             return null;
@@ -69,7 +67,7 @@ public class JwtTokenProvider {
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username, null, List.of());
         String newAccessToken = generateToken(auth, userId, false);
 
-        JwtAuthResponse response = new JwtAuthResponse();
+        JwtAuthResponseDTO response = new JwtAuthResponseDTO();
         response.setAccessToken(newAccessToken);
 
         return response;
@@ -101,9 +99,9 @@ public class JwtTokenProvider {
 
     public void generateRefreshToken(Authentication authentication, String accessToken, int userId) throws IOException {
         try {
-            List<RefreshTokenDTO> existingTokens = refreshTokenRepository.findAllByUserIdAndExpired(userId);
+            List<RefreshToken> existingTokens = refreshTokenRepository.findAllByUserIdAndExpired(userId);
 
-            for (RefreshTokenDTO refreshToken : existingTokens) {
+            for (RefreshToken refreshToken : existingTokens) {
                 refreshToken.setExpired(true);
                 refreshTokenRepository.save(refreshToken);
             }
@@ -122,7 +120,7 @@ public class JwtTokenProvider {
                 .expiration(expirationDate)
                 .signWith(key())
                 .compact();
-        RefreshTokenDTO refreshTokenDTO = new RefreshTokenDTO();
+        RefreshToken refreshTokenDTO = new RefreshToken();
         refreshTokenDTO.setUserId(userId);
         refreshTokenDTO.setAccessToken(accessToken);
         refreshTokenDTO.setRefreshToken(refreshToken);

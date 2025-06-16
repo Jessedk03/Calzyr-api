@@ -1,4 +1,4 @@
-package com.calzyr.dto.authorization;
+package com.calzyr.entity.authorization;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -14,7 +14,7 @@ import java.security.Timestamp;
 @AllArgsConstructor
 @Entity
 @Table(name = "roles")
-public class RoleDTO {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,6 @@
 package com.calzyr.services.auth;
 
-import com.calzyr.dto.user.UserDTO;
+import com.calzyr.entity.user.User;
 import com.calzyr.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        UserDTO user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User does not exists by Username or Email" + usernameOrEmail));
 
         Set<GrantedAuthority> authorities = user.getRoles().stream()

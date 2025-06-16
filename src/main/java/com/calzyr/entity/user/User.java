@@ -1,6 +1,6 @@
-package com.calzyr.dto.user;
+package com.calzyr.entity.user;
 
-import com.calzyr.dto.authorization.RoleDTO;
+import com.calzyr.entity.authorization.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "users")
-public class UserDTO {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +40,6 @@ public class UserDTO {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_assignees", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
-    private Set<RoleDTO> roles;
+    private Set<Role> roles;
 
 }

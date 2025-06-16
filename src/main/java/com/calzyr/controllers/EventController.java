@@ -1,8 +1,8 @@
 package com.calzyr.controllers;
 
 import com.calzyr.dto.event.EventResponseDTO;
-import com.calzyr.dto.event.EventDTO;
-import com.calzyr.dto.user.UserDTO;
+import com.calzyr.entity.event.Event;
+import com.calzyr.entity.user.User;
 import com.calzyr.repositories.EventRepository;
 import com.calzyr.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,23 +29,23 @@ public class EventController {
     }
 
     @GetMapping
-    public Iterable<EventDTO> getAllEvents() {
+    public Iterable<Event> getAllEvents() {
         return eventRepository.findAllEvents();
     }
 
     @GetMapping("/{id}")
-    public Optional<EventDTO> getEventById(@PathVariable Integer id) {
+    public Optional<Event> getEventById(@PathVariable Integer id) {
         return eventRepository.findById(id);
     }
 
     @PostMapping
-    public EventResponseDTO createEvent(@RequestBody EventDTO eventDetails) {
+    public EventResponseDTO createEvent(@RequestBody Event eventDetails) {
 
         try {
-            UserDTO user = userRepository.findById(eventDetails.getUserId().getId())
+            User user = userRepository.findById(eventDetails.getUserId().getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            EventDTO event = new EventDTO();
+            Event event = new Event();
             event.setTitle(eventDetails.getTitle());
             event.setDescription(eventDetails.getDescription());
             event.setStartTime(eventDetails.getStartTime());
@@ -55,7 +55,7 @@ public class EventController {
             event.setCreatedAt(Timestamp.from(Instant.now()));
             event.setAllDay(eventDetails.getAllDay());
 
-            EventDTO savedEvent = eventRepository.save(event);
+            Event savedEvent = eventRepository.save(event);
             return new EventResponseDTO(savedEvent);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -64,9 +64,9 @@ public class EventController {
     }
 
     @PatchMapping("/{id}/update")
-    public EventResponseDTO updateEvent(@PathVariable Integer id, @RequestBody EventDTO eventDetails) {
+    public EventResponseDTO updateEvent(@PathVariable Integer id, @RequestBody Event eventDetails) {
         try {
-            EventDTO event = eventRepository.findById(id).orElseThrow(() ->
+            Event event = eventRepository.findById(id).orElseThrow(() ->
                     new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found with id: " + id));
 
             event.setTitle(eventDetails.getTitle());
@@ -78,7 +78,7 @@ public class EventController {
             event.setUpdatedAt(Timestamp.from(Instant.now()));
             event.setAllDay(eventDetails.getAllDay());
 
-            EventDTO savedEvent = eventRepository.save(event);
+            Event savedEvent = eventRepository.save(event);
             return new EventResponseDTO(savedEvent);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -89,7 +89,7 @@ public class EventController {
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<String> deleteEvent(@PathVariable Integer id) {
         try {
-            EventDTO event = eventRepository.findById(id).orElseThrow(() ->
+            Event event = eventRepository.findById(id).orElseThrow(() ->
                     new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found with id: " + id));
 
             event.setDeletedAt(Timestamp.from(Instant.now()));

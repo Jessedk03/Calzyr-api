@@ -1,6 +1,6 @@
 package com.calzyr.controllers;
 
-import com.calzyr.dto.ArchiveRecordDTO;
+import com.calzyr.entity.archive.ArchiveRecord;
 import com.calzyr.repositories.ArchiveRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +13,11 @@ public class ArchiveRecordController {
     private ArchiveRecordRepository archiveRecordRepository;
 
     @GetMapping
-    public Iterable<ArchiveRecordDTO> getAllArchivedRecords() { return archiveRecordRepository.findAllEvents(); }
+    public Iterable<ArchiveRecord> getAllArchivedRecords() { return archiveRecordRepository.findAllEvents(); }
 
     @GetMapping("/{record_type}")
-    public Iterable<ArchiveRecordDTO> getAllArchivedRecordsByRecordType(@RequestBody String record_type) { return archiveRecordRepository.findByRecordType(record_type); }
+    public Iterable<ArchiveRecord> getAllArchivedRecordsByRecordType(@RequestBody String record_type) { return archiveRecordRepository.findByRecordType(record_type); }
 
     @PostMapping
-    public ArchiveRecordDTO archiveRecord(@RequestBody ArchiveRecordDTO archiveRecord) { return archiveRecordRepository.save(archiveRecord); }
+    public ArchiveRecord archiveRecord(@RequestBody ArchiveRecord archiveRecord) { return archiveRecordRepository.save(archiveRecord); }
 }
