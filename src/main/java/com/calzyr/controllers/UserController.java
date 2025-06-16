@@ -38,6 +38,16 @@ public class UserController {
         return userRepository.findAllActiveUsers();
     }
 
+    @GetMapping("/me")
+    public Optional<UserResponseDTO> getUserInformation(Integer id) {
+        Optional<UserDTO> userRepo = userRepository.findById(id);
+        if (userRepo.isEmpty()) {
+            return Optional.empty();
+        }
+
+//        TODO: Finish Subscription and finish this function idiot.
+    }
+
     @GetMapping("/{id}")
     public Optional<UserDTO> getUserById(@PathVariable Integer id) {
         return userRepository.findById(id);
