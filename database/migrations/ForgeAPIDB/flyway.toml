@@ -1,0 +1,31 @@
+databaseType = "MySql"
+id = "bdfc72b1-6e4e-4b80-83f0-7e378947a0f2"
+name = "ForgeAPIDB"
+
+[flyway]
+locations = [ "filesystem:migrations" ]
+mixed = true
+outOfOrder = true
+schemaModelLocation = "schema-model"
+validateMigrationNaming = true
+
+  [flyway.check]
+  majorTolerance = 0
+
+[flywayDesktop]
+developmentEnvironment = "development"
+shadowEnvironment = "shadow"
+enableMigrations = false
+
+[redgateCompare]
+filterFile = "filter.rgf"
+
+[redgateCompare.mysql.options.ignores]
+ignoreNewlinesInTextObjects = "off"
+
+[environments.forge]
+url = "${DB_URL}"
+user = "${DB_USERNAME}"
+password = "${DB_PASSWORD}"
+schemas = [ "HR" ]
+displayName = "forge"
