@@ -24,8 +24,7 @@ filterFile = "filter.rgf"
 ignoreNewlinesInTextObjects = "off"
 
 [environments.forge]
-url = "${DB_URL}"
-user = "${DB_USERNAME}"
-password = "${DB_PASSWORD}"
-schemas = [ "HR" ]
+url = "jdbc:mysql://localhost:3306/calzyr"
+user = "root"
+schemas = [ "calzyr" ]
 displayName = "forge"
