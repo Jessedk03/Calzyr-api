@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `is_contact` TINYINT(1) DEFAULT 0 AFTER `password`;

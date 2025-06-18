@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "")
+@CrossOrigin(origins = "http://localhost:5173/")
 @RequestMapping("/auth")
 public class LoginController {
 
