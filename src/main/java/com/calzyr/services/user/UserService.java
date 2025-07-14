@@ -2,11 +2,13 @@ package com.calzyr.services.user;
 
 import com.calzyr.dtos.event.EventResponseDTO;
 import com.calzyr.dtos.user.UserResponseDTO;
+import com.calzyr.entities.company.Company;
+import com.calzyr.entities.company.CompanySubscription;
+import com.calzyr.entities.company.CompanyUser;
 import com.calzyr.entities.event.Event;
 import com.calzyr.entities.user.User;
 import com.calzyr.exceptions.NotFoundException;
-import com.calzyr.repositories.EventRepository;
-import com.calzyr.repositories.UserRepository;
+import com.calzyr.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -24,6 +27,15 @@ public class UserService {
 
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
+    private CompanyUserRepository companyUserRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    @Autowired
+    private CompanySubscriptionRepository companySubscriptionRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -92,5 +104,13 @@ public class UserService {
         userRepository.save(user);
     }
 
-//    Get personal information
+    //    Get personal information TODO:
+//    public UserResponseDTO getUserInformation(Integer userId) {
+////        Get user information such as Subscription and Company.
+//        CompanyUser companyUser = companyUserRepository.findUserInCompany(userId, companyId)
+//                .orElseThrow(() -> new NotFoundException("Record not found"));
+//
+//        CompanySubscription companySubscription = companySubscriptionRepository.findByCompanyId(companyId)
+//                .orElseThrow(() -> new NotFoundException("Company subscription not found"));
+//    }
 }

@@ -20,14 +20,8 @@ public class UserController {
     }
 
 //    @GetMapping("/me")
-//    public String getUserInformation(Integer id) {
-////        Optional<User> userRepo = userRepository.findById(id);
-////        if (userRepo.isEmpty()) {
-////            return "Optional.empty()";
-////        }
-////
-//////        TODO: Finish Subscription and finish this function idiot.
-////        return "";
+//    public UserResponseDTO getUserInformation(Integer id) {
+//        return userService.getUserInformation(id);
 //    }
 
     @GetMapping("/{id}")
