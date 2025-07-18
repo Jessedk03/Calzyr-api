@@ -1,23 +1,25 @@
 package com.calzyr.services.user;
 
+import com.calzyr.dtos.company.CompanyDetailsDTO;
+import com.calzyr.dtos.company.CompanyResponseDTO;
 import com.calzyr.dtos.event.EventResponseDTO;
+import com.calzyr.dtos.subscription.SubscriptionResponseDTO;
+import com.calzyr.dtos.user.UserDetailsResponseDTO;
 import com.calzyr.dtos.user.UserResponseDTO;
 import com.calzyr.entities.company.Company;
-import com.calzyr.entities.company.CompanySubscription;
-import com.calzyr.entities.company.CompanyUser;
 import com.calzyr.entities.event.Event;
+import com.calzyr.entities.subscription.Subscription;
 import com.calzyr.entities.user.User;
 import com.calzyr.exceptions.NotFoundException;
 import com.calzyr.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -29,10 +31,13 @@ public class UserService {
     private EventRepository eventRepository;
 
     @Autowired
+    private CompanyRepository companyRepository;
+
+    @Autowired
     private CompanyUserRepository companyUserRepository;
 
     @Autowired
-    private CompanyRepository companyRepository;
+    private SubscriptionRepository subscriptionRepository;
 
     @Autowired
     private CompanySubscriptionRepository companySubscriptionRepository;
@@ -104,13 +109,32 @@ public class UserService {
         userRepository.save(user);
     }
 
-    //    Get personal information TODO:
-//    public UserResponseDTO getUserInformation(Integer userId) {
-////        Get user information such as Subscription and Company.
-//        CompanyUser companyUser = companyUserRepository.findUserInCompany(userId, companyId)
-//                .orElseThrow(() -> new NotFoundException("Record not found"));
-//
-//        CompanySubscription companySubscription = companySubscriptionRepository.findByCompanyId(companyId)
-//                .orElseThrow(() -> new NotFoundException("Company subscription not found"));
-//    }
+    public UserDetailsResponseDTO userDetails(Integer userId) {
+
+
+        // make this  for each loop again
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        List<Integer> companyOfUser = companyUserRepository.findCompanyOfUser(user.getId());
+        List<Company> companies = companyRepository.findCompaniesId(companyOfUser);
+
+        List<Integer> companyIds = companies.stream()
+                .map(Company::getId)
+                .toList();
+
+        List<Integer> companySubscriptionList = companySubscriptionRepository.findSubscriptionOfCompanies(companyIds);
+
+        List<Subscription> subscriptions = subscriptionRepository.findAllSubscriptionsById(companySubscriptionList);
+
+        List<CompanyResponseDTO> companyDto = companies.stream()
+                .map(CompanyResponseDTO::new)
+                .toList();
+
+        List<SubscriptionResponseDTO> subscriptionDto = subscriptions.stream()
+                .map(SubscriptionResponseDTO::new)
+                .toList();
+
+        return new UserDetailsResponseDTO(user, List.of(new CompanyDetailsDTO(companyDto, subscriptionDto)));
+    }
 }
