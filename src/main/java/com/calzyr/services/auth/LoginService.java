@@ -3,10 +3,15 @@ package com.calzyr.services.auth;
 import com.calzyr.dtos.authentication.JwtAuthResponseDTO;
 import com.calzyr.dtos.authentication.LoginDTO;
 import com.calzyr.dtos.authentication.LoginResponseDTO;
-import com.calzyr.dtos.user.UserResponseDTO;
+import com.calzyr.dtos.company.CompanyDetailsDTO;
+import com.calzyr.dtos.user.UserDetailsResponseDTO;
+import com.calzyr.entities.company.Company;
 import com.calzyr.entities.user.User;
+import com.calzyr.repositories.CompanyRepository;
+import com.calzyr.repositories.CompanyUserRepository;
 import com.calzyr.repositories.UserRepository;
 import com.calzyr.security.JwtTokenProvider;
+import com.calzyr.services.user.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +25,9 @@ public class LoginService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private AuthService authService;
@@ -47,8 +55,12 @@ public class LoginService {
         // Zet cookie
         cookieService.setAccessToken(response, token);
 
-        // TODO: Voeg hier de Subscription ook aan toe.
-        UserResponseDTO userResponse = new UserResponseDTO(user);
+
+//        List<Integer> companyOfUser = companyUserRepository.findCompanyOfUser(user.getId());
+//        List<Company> companiesList = companyRepository.findCompaniesId(companyOfUser);
+//        List<CompanyDetailsDTO> companies = new CompanyDetailsDTO(companiesList);
+//        UserDetailsResponseDTO userResponse = new UserDetailsResponseDTO(user, companies);
+        UserDetailsResponseDTO userResponse = userService.userDetails(user.getId());
 
         LoginResponseDTO loginResponse = new LoginResponseDTO(token, "Bearer", userResponse);
 

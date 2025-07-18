@@ -1,5 +1,6 @@
 package com.calzyr.controllers;
 
+import com.calzyr.dtos.user.UserDetailsResponseDTO;
 import com.calzyr.entities.user.User;
 import com.calzyr.dtos.user.UserResponseDTO;
 import com.calzyr.services.user.UserService;
@@ -19,16 +20,10 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-//    @GetMapping("/me")
-//    public String getUserInformation(Integer id) {
-////        Optional<User> userRepo = userRepository.findById(id);
-////        if (userRepo.isEmpty()) {
-////            return "Optional.empty()";
-////        }
-////
-//////        TODO: Finish Subscription and finish this function idiot.
-////        return "";
-//    }
+    @PostMapping("/{id}/me")
+    public UserDetailsResponseDTO getUserInformation(@PathVariable Integer id) {
+        return userService.userDetails(id);
+    }
 
     @GetMapping("/{id}")
     public UserResponseDTO getUserById(@PathVariable Integer id) {

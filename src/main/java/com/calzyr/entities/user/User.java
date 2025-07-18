@@ -28,6 +28,14 @@ public class User {
     @Column(name = "password")
     private String Password;
 
+    @Column(name = "is_contact")
+    private boolean IsContact;
+
+//    Getting set as true once an existing customer adds a new company to their subscription and this user needs access
+//    to that company on the same account
+    @Column(name = "multi_tenant")
+    private boolean MultiTenant;
+
     @Column(name = "created_at")
     private Timestamp CreatedAt;
 

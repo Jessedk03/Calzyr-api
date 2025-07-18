@@ -1,0 +1,1 @@
+ALTER TABLE `subscriptions` ADD `expires_at` TIMESTAMP AFTER `base_price_yearly`;
