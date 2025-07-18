@@ -106,10 +106,6 @@ public class DatabaseSeeder {
     }
 
     private void seedUsersTable() {
-        if (userRepository.findByEmail("Jessedekoe03@gmail.com").isPresent()) {
-            return;
-        }
-
         User user = new User();
 
         user.setUsername("Isa");
